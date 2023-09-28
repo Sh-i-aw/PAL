@@ -35,14 +35,56 @@
 
 double interestCalculation(double balance, double interestRate);
 void incomeProjection(double balance, double interestRate, int numOfYears);
-double getFloat(void);
+double getDouble(void);
+int getInt(void);
+
+// show the possible declaration methods 
+// practiced avoiding MAGIC NUMBERS
+#define kRateOne 0.03
+const double kRateTwo = 0.05;
 
 int main(void)
 {
-	// declare variables for principal, interest rate, number of years compounding 
-	double balance = 100;
-	double interestRate = 0.05;
-	int numOfYears = 3;
+	// collecting balance from user 
+	printf("Please enter balance: ");
+	double balance = getDouble();
+
+	// Collecting user choice for interest rate. 
+
+	// The bank will offer 2 available interest rate for the user to choose from. 
+	// Option 1: 3% interest rate 
+	// Option 2: 5% interest rate
+
+	printf("Please choose from the 2 available interest rate options: \n\t 1. 3%% \n\t 2. 5%%\n\n");
+	int userChoice = getInt();
+
+	// repeat prompting the user, until they give the right input 
+	while (userChoice != 1 && userChoice != 2) //if user does not choose 1 of 2 
+	{
+		printf("Please enter a valid option: \n\t 1. 3%% \n\t 2. 5%%\n\n");
+		userChoice = getInt();
+	}
+
+	double interestRate = 0.0;
+
+	// Alternatively: userChoice == 1 ? interestRate = kRateOne : interestRate = kRateTwo;
+	if (userChoice == 1)
+	{
+		interestRate = kRateOne;
+	}
+	else if (userChoice == 2)
+	{
+		interestRate = kRateTwo;
+	}
+
+	printf("\nThe interest rate you have chosen is %.2lf%%.\n", interestRate * 100);
+
+
+	// collecting user input for number of years of the save term. 
+
+	printf("\n Please indicate the number of years for your savings' term:");
+
+	int numOfYears = getInt();
 
 	// call interest calculation function 
 	// ALT: double firstYearBalance = interestCalculation(balance, interestRate);
@@ -106,7 +148,7 @@ void incomeProjection(double balance, double interestRate, int numOfYears)
 
 
 // required by Visual Studio
-double getFloat(void)
+double getDouble(void)
 {
 	/* the array is 121 bytes in size; we'll see in a later lecture how we can
 	improve this code */
@@ -133,6 +175,30 @@ double getFloat(void)
 
 
 
+int getInt(void)
+{
+	/* the array is 121 bytes in size; we'll see in a later lecture how we can
+	improve this code */
+
+	char record[121] = { 0 }; /* record stores the string */
+	int number = 0;
+
+	/* NOTE to student: brace this function consistent with your others */
+	/* use fgets() to get a string from the keyboard */
+
+	fgets(record, 121, stdin);
+	/* extract the number from the string; sscanf() returns a number
+	* corresponding with the number of items it found in the string */
+
+
+	if (sscanf(record, "%d", &number) != 1)
+	{
+		/* if the user did not enter a number recognizable by
+		* the system, set number to -1 */
+		number = -1;
+	}
+	return number;
+}
 
 
 
