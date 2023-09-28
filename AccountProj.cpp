@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#pragma warning(disable: 4996)
 /*
 * Problem to solve:
 *	Create a program that can calculates the current balance of a savings account that compounds
@@ -35,6 +35,7 @@
 
 double interestCalculation(double balance, double interestRate);
 void incomeProjection(double balance, double interestRate, int numOfYears);
+double getFloat(void);
 
 int main(void)
 {
@@ -101,3 +102,49 @@ void incomeProjection(double balance, double interestRate, int numOfYears)
 
 	return;
 }
+
+
+
+// required by Visual Studio
+double getFloat(void)
+{
+	/* the array is 121 bytes in size; we'll see in a later lecture how we can
+	improve this code */
+
+	char record[121] = { 0 }; /* record stores the string */
+	double number = 0;
+
+	/* NOTE to student: brace this function consistent with your others */
+	/* use fgets() to get a string from the keyboard */
+
+	fgets(record, 121, stdin);
+	/* extract the number from the string; sscanf() returns a number
+	* corresponding with the number of items it found in the string */
+
+
+	if (sscanf(record, "%lf", &number) != 1)
+	{
+		/* if the user did not enter a number recognizable by
+		* the system, set number to -1 */
+		number = -1;
+	}
+	return number;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
