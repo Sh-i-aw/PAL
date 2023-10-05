@@ -43,6 +43,13 @@ int getInt(void);
 #define kRateOne 0.03
 const double kRateTwo = 0.05;
 
+enum interestLevel
+{
+	LOW = 1, 
+	MED,
+	HIGH
+};
+
 int main(void)
 {
 	// collecting balance from user 
@@ -67,14 +74,19 @@ int main(void)
 
 	double interestRate = 0.0;
 
-	// Alternatively: userChoice == 1 ? interestRate = kRateOne : interestRate = kRateTwo;
-	if (userChoice == 1)
+	//We used to have an if-else here, updated it to a switch case. The enum declaration can be seen before main. 
+
+	switch (userChoice) 
 	{
+	case LOW:
 		interestRate = kRateOne;
-	}
-	else if (userChoice == 2)
-	{
-		interestRate = kRateTwo;
+		break;
+	case MED: 
+		interestRate = kRateTwo; 
+		break;
+	default: 
+		printf("choice was neither 1 or 2");
+
 	}
 
 	printf("\nThe interest rate you have chosen is %.2lf%%.\n", interestRate * 100);
@@ -121,20 +133,18 @@ double interestCalculation(double balance, double interestRate)
 void incomeProjection(double balance, double interestRate, int numOfYears)
 {
 	// declare necessary variables to hold the intermediate values 
-	int currentYear = 1;
 	double interimBalance = balance;
 
 	printf("Given the principal of $%.2lf : \n", balance);
 	// LOOP for each year in the compounding period 
-	while (currentYear <= numOfYears)
+	for (int currentYear = 1; currentYear <= numOfYears; ++currentYear)
 	{
 		// calculate the value given interst and principal 
 		interimBalance = interestCalculation(interimBalance, interestRate);
 
 		// print out the balance after compounding 
 		printf("\tTotal balance after year %d : $%.2lf\n", currentYear, interimBalance);
-		currentYear++;
-		// OPTIONALLY 
+
 	}
 
 	// ALT: double totalInterest = interimBalance - balance; 
