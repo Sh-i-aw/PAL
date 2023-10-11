@@ -18,32 +18,34 @@ int main(void)
 	double temp = 0; 
 
 	// prompt user 7 times, collect a double value from them, and place it in the array. 
-	for (int i = 0; i < kWeekDays; ++i)
+	for (int day = 0; day < kWeekDays; ++day)
 	{
 		//prompt user 
-		printf("Please input the temperature for day %d: ", i + 1);
+		printf("Please input the temperature for day %d: ", day + 1);
 		temp = getDouble();
 
 		// getDouble returns -1 if there is no number found 
 		// in this case, I left the array element unchanged. 
 		if (temp != -1)
 		{
-			temperatures[i] = temp;
+			temperatures[day] = temp;
 		}
 	}
 
 	// print out the collected temperature values to 1 decimal accuracy 
 	printf("The temperature of the week is as follows: \n");
-	for (int i = 0; i < kWeekDays; ++i)
+	for (int day = 0; day < kWeekDays; ++day)
 	{
 
 		// if array element was never updated, printout a message indicating user did not put valid value. 
-		if (temperatures[i] == 0)
+		if (temperatures[day] == 0)
 		{
-			printf("User did not put a valid temperature input for day %d\n", i + 1);
+			printf("User did not put a valid temperature input for day %d\n", day + 1);
 			continue;
 		}
-		printf("\tDay %d: %.1f C\n", i + 1, temperatures[i]);
+
+		// other wise print out the recorded temperature for that day 
+		printf("\tDay %d: %.1f C\n", day + 1, temperatures[day]);
 	}
 
 }
