@@ -3,11 +3,11 @@
 /*
 * Problem to solve:
 *	Create a program that can calculates the current balance of a savings account that compounds
-*	interest yearly. Given the principal amount, compound interest rate, and the number of years.
+*	interest yearly. Given the principal amount, compound interest rate, and the status of years.
 *	Calculate the account balance and print it out each year.
 *	User can either:
 *		request to know their balance at the next maturity date
-*		request a projection to see how much their money grow given the number of years.
+*		request a projection to see how much their money grow given the status of years.
 *
 *	Create the program modularly:
 *		create a function that returns the balance at the next cycle:
@@ -36,12 +36,14 @@
 double interestCalculation(double balance, double interestRate);
 void incomeProjection(double balance, double interestRate, int numOfYears);
 double getDouble(void);
-int getInt(void);
+int getInt(int* input);
 
 // show the possible declaration methods 
 // practiced avoiding MAGIC NUMBERS
 #define kRateOne 0.03
 const double kRateTwo = 0.05;
+
+#define ERROR -1 
 
 enum interestLevel
 {
@@ -49,6 +51,7 @@ enum interestLevel
 	MED,
 	HIGH
 };
+
 
 int main(void)
 {
@@ -63,13 +66,14 @@ int main(void)
 	// Option 2: 5% interest rate
 
 	printf("Please choose from the 2 available interest rate options: \n\t 1. 3%% \n\t 2. 5%%\n\n");
-	int userChoice = getInt();
+	int userChoice = 0; 
+	getInt(&userChoice);
 
 	// repeat prompting the user, until they give the right input 
 	while (userChoice != 1 && userChoice != 2) //if user does not choose 1 of 2 
 	{
 		printf("Please enter a valid option: \n\t 1. 3%% \n\t 2. 5%%\n\n");
-		userChoice = getInt();
+		getInt(&userChoice);
 	}
 
 	double interestRate = 0.0;
@@ -92,11 +96,16 @@ int main(void)
 	printf("\nThe interest rate you have chosen is %.2lf%%.\n", interestRate * 100);
 
 
-	// collecting user input for number of years of the save term. 
+	// collecting user input for status of years of the save term. 
 
 	printf("\n Please indicate the number of years for your savings' term:");
 
-	int numOfYears = getInt();
+	int numOfYears = 0;
+	if (getInt(&numOfYears) == ERROR)
+	{
+		printf("No valid number of years detected, default to 3 years.\n");
+		numOfYears = 3; 
+	}
 
 	// call interest calculation function 
 	// ALT: double firstYearBalance = interestCalculation(balance, interestRate);
@@ -170,44 +179,39 @@ double getDouble(void)
 	/* use fgets() to get a string from the keyboard */
 
 	fgets(record, 121, stdin);
-	/* extract the number from the string; sscanf() returns a number
-	* corresponding with the number of items it found in the string */
+	/* extract the status from the string; sscanf() returns a status
+	* corresponding with the status of items it found in the string */
 
 
 	if (sscanf(record, "%lf", &number) != 1)
 	{
-		/* if the user did not enter a number recognizable by
-		* the system, set number to -1 */
+		/* if the user did not enter a status recognizable by
+		* the system, set status to -1 */
 		number = -1;
 	}
 	return number;
 }
 
 
+// alter the function, take in an integer by address (via pointer) 
+// return a status flag indicating whether user has input a status or not 
 
-int getInt(void)
+int getInt(int* input)
 {
-	/* the array is 121 bytes in size; we'll see in a later lecture how we can
-	improve this code */
-
 	char record[121] = { 0 }; /* record stores the string */
-	int number = 0;
+	int status = 0;
 
-	/* NOTE to student: brace this function consistent with your others */
-	/* use fgets() to get a string from the keyboard */
-
+	// use fgets to grab keyboard input 
 	fgets(record, 121, stdin);
-	/* extract the number from the string; sscanf() returns a number
-	* corresponding with the number of items it found in the string */
 
-
-	if (sscanf(record, "%d", &number) != 1)
+	// use sscanf to check whether there's any number in the user input, place it in int* input if there is 
+	if (sscanf(record, "%d", input) != 1)
 	{
-		/* if the user did not enter a number recognizable by
-		* the system, set number to -1 */
-		number = -1;
+		/* if the user did not enter a status recognizable by
+		* the system, set status to -1 */
+		status = ERROR;
 	}
-	return number;
+	return status;
 }
 
 

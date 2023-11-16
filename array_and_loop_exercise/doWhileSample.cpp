@@ -17,9 +17,6 @@ int main(void)
 
 	do
 	{
-		printf("Taking one step\n");	// Note, even though wantToWalk is 0, program still outputs one step, try out what happens by changing value in line 15
-		stepCounter++; 
-	
 		// every 50 steps, prompt the user "Do you really want to keep walking?!"
 		if (stepCounter % 50 == 0 && stepCounter > 0)
 		{
@@ -30,6 +27,11 @@ int main(void)
 				break;	//  This jumps right out of the loop body, use debugger to check which line is executed next 
 			}
 		}
+
+
+		printf("Taking one step\n");	// Note, even though wantToWalk is 0, program still outputs one step, try out what happens by changing value in line 15
+		stepCounter++; 
+	
 		 
 		// every 10 steps taken, prompt user if they want to keep walking 
 		if (stepCounter % 10 == 0)
